@@ -1,30 +1,8 @@
-import { useEffect, useState, memo } from 'react'
-import styles from './index.module.css'
+import { useEffect, useState } from 'react'
+import { Line } from './line'
 
 const averageLifeExpectancyInYears = 72.74
 const lines = 95
-
-function ProgressBarLine({ completed, isLabelOverflow, label }) {
-    const labelStyles = `${styles['line-label']} ${isLabelOverflow ? `${styles['line-label_overflow']}` : ''}`
-
-    return (
-        <div className={styles['line-container']}>
-            <div
-                className={styles['line-filler']}
-                style={{ width: `${completed}%` }}
-            >
-                {label && (
-                    <code className={labelStyles}>
-                        {label}
-                    </code>
-                )}
-            </div>
-        </div>
-    )
-}
-
-const MemoizedProgressBarLine = memo(ProgressBarLine)
-
 
 export function ProgressBar({ date }) {
     const [time, setTime] = useState(Date.now())
@@ -36,7 +14,7 @@ export function ProgressBar({ date }) {
     const completed = 100 * (time - birthDate.getTime()) / (dateOfDeath.getTime() - birthDate.getTime())
 
     useEffect(() => {
-        const interval = setInterval(() => setTime(Date.now()), 100)
+        const interval = setInterval(() => setTime(Date.now()), 20)
         return () => {
             clearInterval(interval)
         }
@@ -64,7 +42,7 @@ export function ProgressBar({ date }) {
                 const labelText = `${completed.toFixed(9)}%`
 
                 return (
-                    <MemoizedProgressBarLine
+                    <Line
                         key={i}
                         completed={lineCompleted}
                         label={isLabelShown && labelText}

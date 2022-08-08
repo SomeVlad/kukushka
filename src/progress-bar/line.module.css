@@ -6,14 +6,13 @@
     height: var(--line-height);
     width: 100%;
     background-color: #e5e5f7;
-    background-image: linear-gradient(#444cf7 1px, transparent 1px), linear-gradient(to right, #444cf7 1px, #e5e5f7 1px);
+    background-image: linear-gradient(#9d9ff8 1px, transparent 1px), linear-gradient(to right, #9d9ff8 1px, #e5e5f7 1px);
     background-size: var(--line-height) var(--line-height);
 }
 
 .line-filler {
     height: 100%;
-    background-color: black;
-    opacity: 0.8;
+    background-color: rgba(0, 0, 0, 0.8);
     transition: width 0.2s ease-in-out;
     text-align: right;
     position: relative;
