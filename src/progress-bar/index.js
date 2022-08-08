@@ -1,11 +1,11 @@
+import { useEffect, useState, memo } from 'react'
 import styles from './index.module.css'
-import { useEffect, useState } from 'react'
 
 const averageLifeExpectancyInYears = 72.74
+const lines = 95
 
-function ProgressBarLine({ completed, totalPercentage }) {
-    const isLabelShown = completed > 0 && completed < 100
-    const labelText = `${totalPercentage.toFixed(9)}%`
+function ProgressBarLine({ completed, isLabelOverflow, label }) {
+    const labelStyles = `${styles['line-label']} ${isLabelOverflow ? `${styles['line-label_overflow']}` : ''}`
 
     return (
         <div className={styles['line-container']}>
@@ -13,16 +13,21 @@ function ProgressBarLine({ completed, totalPercentage }) {
                 className={styles['line-filler']}
                 style={{ width: `${completed}%` }}
             >
-                {isLabelShown && <code className={styles['line-label']}>{labelText}</code>}
+                {label && (
+                    <code className={labelStyles}>
+                        {label}
+                    </code>
+                )}
             </div>
         </div>
     )
 }
 
-const lines = 95
+const MemoizedProgressBarLine = memo(ProgressBarLine)
+
 
 export function ProgressBar({ date }) {
-    const [time, setTime] = useState(Date.now());
+    const [time, setTime] = useState(Date.now())
 
     const birthDate = new Date(date)
     const dateOfDeath = new Date(date)
@@ -31,11 +36,11 @@ export function ProgressBar({ date }) {
     const completed = 100 * (time - birthDate.getTime()) / (dateOfDeath.getTime() - birthDate.getTime())
 
     useEffect(() => {
-        const interval = setInterval(() => setTime(Date.now()), 100);
+        const interval = setInterval(() => setTime(Date.now()), 100)
         return () => {
-            clearInterval(interval);
-        };
-    }, []);
+            clearInterval(interval)
+        }
+    }, [])
 
     return (
         <div>
@@ -54,11 +59,16 @@ export function ProgressBar({ date }) {
                     lineCompleted = 100 * completedFraction / oneLinePercentage
                 }
 
+                const isLabelShown = lineCompleted > 0 && lineCompleted < 100
+                const isLabelOverflow = lineCompleted > 0 && lineCompleted < 9
+                const labelText = `${completed.toFixed(9)}%`
+
                 return (
-                    <ProgressBarLine
+                    <MemoizedProgressBarLine
                         key={i}
                         completed={lineCompleted}
-                        totalPercentage={completed}
+                        label={isLabelShown && labelText}
+                        isLabelOverflow={isLabelShown && isLabelOverflow}
                     />
                 )
             })}

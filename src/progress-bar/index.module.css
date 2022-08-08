@@ -5,10 +5,9 @@
 .line-container {
     height: var(--line-height);
     width: 100%;
-
     background-color: #e5e5f7;
     background-image: linear-gradient(#444cf7 1px, transparent 1px), linear-gradient(to right, #444cf7 1px, #e5e5f7 1px);
-    background-size: var(--line-height);
+    background-size: var(--line-height) var(--line-height);
 }
 
 .line-filler {
@@ -26,4 +25,10 @@
     position: absolute;
     right: 0;
     color: white;
+}
+
+.line-label_overflow {
+    top: -1vh;
+    left: 0;
+    right: auto;
 }
